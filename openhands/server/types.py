@@ -6,6 +6,7 @@ from typing import Any, ClassVar, Protocol
 class AppMode(Enum):
     OSS = 'oss'
     SAAS = 'saas'
+    MULTI_USER = 'multi_user'
 
 
 class SessionMiddlewareInterface(Protocol):

@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import OpenHands from "#/api/open-hands";
+import { getAuthStatus } from "#/api/auth";
 import { useConfig } from "./use-config";
 import { useIsOnTosPage } from "#/hooks/use-is-on-tos-page";
 
@@ -14,7 +15,13 @@ export const useIsAuthed = () => {
     queryKey: ["user", "authenticated", appMode],
     queryFn: async () => {
       try {
-        // If in OSS mode or authentication succeeds, return true
+        // Use new auth system for multi-user mode
+        if (appMode === "MULTI_USER") {
+          const authStatus = await getAuthStatus();
+          return authStatus.authenticated;
+        }
+
+        // Fallback to existing authentication for other modes
         await OpenHands.authenticate(appMode!);
         return true;
       } catch (error) {
