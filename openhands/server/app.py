@@ -25,6 +25,7 @@ from openhands.server.routes.manage_conversations import (
 )
 from openhands.server.routes.mcp import mcp_server
 from openhands.server.routes.public import app as public_api_router
+from openhands.server.routes.public import public_app as truly_public_api_router
 from openhands.server.routes.secrets import app as secrets_router
 from openhands.server.routes.security import app as security_api_router
 from openhands.server.routes.settings import app as settings_router
@@ -62,6 +63,7 @@ app = FastAPI(
 
 
 app.include_router(auth_router)
+app.include_router(truly_public_api_router)  # Truly public endpoints (no auth)
 app.include_router(public_api_router)
 app.include_router(files_api_router)
 app.include_router(security_api_router)
